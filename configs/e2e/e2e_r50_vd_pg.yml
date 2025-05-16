@@ -6,7 +6,7 @@ Global:
   save_model_dir: ./output/pgnet_r50_vd_totaltext/
   save_epoch_step: 10
   # evaluation is run every 0 iterationss after the 1000th iteration
-  eval_batch_step: [ 0, 1000 ]
+  eval_batch_step: [ 0, 10000 ]
   cal_metric_during_train: False
   pretrained_model:
   checkpoints:
@@ -48,7 +48,7 @@ Optimizer:
   beta2: 0.999
   lr:
     name: Cosine
-    learning_rate: 0.001
+    learning_rate: 0.0001
     warmup_epoch: 50
   regularizer:
     name: 'L2'
@@ -70,8 +70,8 @@ Metric:
 Train:
   dataset:
     name: PGDataSet
-    data_dir: ./train_data/total_text/train
-    label_file_list: [./train_data/total_text/train/train.txt]
+    data_dir: /home/dq/datasets/textocr/train/
+    label_file_list: [/home/dq/datasets/textocr/train/train.txt]
     ratio_list: [1.0]
     transforms:
       - DecodeImage: # load image
@@ -97,8 +97,8 @@ Train:
 Eval:
   dataset:
     name: PGDataSet
-    data_dir: ./train_data/total_text/test
-    label_file_list: [./train_data/total_text/test/test.txt]
+    data_dir: /home/dq/datasets/textocr/test/
+    label_file_list: [/home/dq/datasets/textocr/test/test.txt]
     transforms:
       - DecodeImage: # load image
           img_mode: BGR

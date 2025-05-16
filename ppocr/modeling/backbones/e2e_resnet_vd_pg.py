@@ -155,7 +155,7 @@ class BasicBlock(nn.Layer):
         self.conv1 = ConvBNLayer(
             in_channels=out_channels,
             out_channels=out_channels,
-            kernel_size=3,
+            kernel_size=1,
             act=None,
             name=name + "_branch2b",
         )
@@ -165,7 +165,7 @@ class BasicBlock(nn.Layer):
                 in_channels=in_channels,
                 out_channels=out_channels,
                 kernel_size=1,
-                stride=1,
+                stride=stride,
                 is_vd_mode=False if if_first else True,
                 name=name + "_branch1",
             )
@@ -198,7 +198,7 @@ class ResNet(nn.Layer):
         )
 
         if layers == 18:
-            depth = [2, 2, 2, 2]
+            depth = [2, 2, 2, 2, 2]
         elif layers == 34 or layers == 50:
             # depth = [3, 4, 6, 3]
             depth = [3, 4, 6, 3, 3]
@@ -209,9 +209,10 @@ class ResNet(nn.Layer):
         elif layers == 200:
             depth = [3, 12, 48, 3]
         num_channels = (
-            [64, 256, 512, 1024, 2048] if layers >= 50 else [64, 64, 128, 256]
+            [64, 256, 512, 1024, 2048] if layers >= 50 else [64, 64, 128, 256,512]
         )
-        num_filters = [64, 128, 256, 512, 512]
+        num_filters = [64, 128, 256, 512, 512] if layers >= 50 else [64, 128, 256, 512, 1024,1024]
+
 
         self.conv1_1 = ConvBNLayer(
             in_channels=in_channels,

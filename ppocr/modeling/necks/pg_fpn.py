@@ -114,9 +114,10 @@ class DeConvBNLayer(nn.Layer):
 
 
 class PGFPN(nn.Layer):
-    def __init__(self, in_channels, **kwargs):
+    def __init__(self, in_channels, res18 =False, **kwargs):
         super(PGFPN, self).__init__()
-        num_inputs = [2048, 2048, 1024, 512, 256]
+        num_inputs = [1024, 512, 256, 128, 64] if res18 else [2048, 2048, 1024, 512, 256]
+
         num_outputs = [256, 256, 192, 192, 128]
         self.out_channels = 128
         self.conv_bn_layer_1 = ConvBNLayer(
@@ -136,7 +137,7 @@ class PGFPN(nn.Layer):
             name="FPN_d2",
         )
         self.conv_bn_layer_3 = ConvBNLayer(
-            in_channels=256,
+            in_channels=64 if res18 else 256,
             out_channels=128,
             kernel_size=3,
             stride=1,
